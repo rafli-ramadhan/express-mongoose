@@ -32,7 +32,7 @@ const UserSchema = new mongoose.Schema({
   },
 )
 
-// hash function for user register
+// hash function for user register middleware
 UserSchema.pre('save', async function (next) {
   try {
     /* 
