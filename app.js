@@ -1,9 +1,15 @@
 const express = require('express')
+const app = express()
 const morgan = require('morgan')
 const createError = require('http-errors')
+
+// enable env variable
 require('dotenv').config()
 
-const app = express()
+// cors
+const cors = require('cors');
+app.use(cors());
+
 app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -24,7 +30,10 @@ app.use(async (req, res, next) => {
 app.use((err, req, res, next) => {
   res.status(err.status || 500)
   res.send({
-    message: err.message,
+    error: {
+      status: err.status || 500,
+      message: err.message,
+    },
   })
 })
 

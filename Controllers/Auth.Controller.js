@@ -9,6 +9,7 @@ const {
 module.exports = {
   register: async (req, res, next) => {
     try {
+      console.log(req.body)
       // validation
       // if (!name || !email || !password || !gender || !role) throw createError.BadRequest()
       const body = await registerSchema.validateAsync(req.body)
@@ -22,7 +23,7 @@ module.exports = {
 
       const accessToken = await signAccessToken(savedUser.id)
       console.log(accessToken)      
-      res.status(200).send({
+      return res.status(200).send({
         id: savedUser.id,
         accessToken: accessToken
       })
@@ -34,6 +35,7 @@ module.exports = {
 
   login: async (req, res, next) => {
     try {
+      console.log(req.body)
       // validation
       const body = await loginSchema.validateAsync(req.body)
       // if email not exist
@@ -49,7 +51,7 @@ module.exports = {
       const accessToken = await signAccessToken(user.id)
       console.log(accessToken)
 
-      res.status(200).send({ 
+      return res.status(200).send({ 
         user: {
           id: user._id,
           name: user.name,
