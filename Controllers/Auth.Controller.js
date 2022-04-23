@@ -22,10 +22,17 @@ module.exports = {
       console.log(savedUser.id)
 
       const accessToken = await signAccessToken(savedUser.id)
-      console.log(accessToken)      
+      console.log(accessToken)
+
       return res.status(200).send({
-        id: savedUser.id,
-        accessToken: accessToken
+        message: 'success',
+        user: {
+          id: savedUser.id,
+          name: savedUser.name,
+          email: savedUser.email,
+          role: savedUser.role,
+        },
+        token: accessToken,
       })
     } catch (error) {
       if (error.isJoi === true) error.status = 422
