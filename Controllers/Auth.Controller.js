@@ -1,5 +1,5 @@
 const createError = require('http-errors')
-const User = require('../Models/User.model')
+const User = require('../models/user.model')
 const { registerSchema, loginSchema } = require('../helpers/validation_schema')
 const {
   signAccessToken,
@@ -10,10 +10,9 @@ module.exports = {
   register: async (req, res, next) => {
     try {
       console.log(req.body)
-      // validation
-      // if (!name || !email || !password || !gender || !role) throw createError.BadRequest()
+      // validation if (!name || !email || !password || !gender || !role) throw createError.BadRequest()
       const body = await registerSchema.validateAsync(req.body)
-      // if email already exist
+      // validation if email already exist
       const doesExist = await User.findOne({ email: body.email })
       if (doesExist)
         throw createError.Conflict(`${body.email} is already been registered`)
