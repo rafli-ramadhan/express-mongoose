@@ -14,14 +14,42 @@ app.use(morgan('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+// swagger
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require("swagger-ui-express");
+
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Express Rest API",
+      version: "1.0",
+      description: "Express Rest API",
+    },
+    servers: [
+      {
+        url: "http://localhost:5000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
+
+const specs = swaggerJsDoc(options);
+
 // db connection
 require('./helpers/init_mongodb').sync;
 
 // route
-const AuthRoute = require('./Routes/Auth.route')
-const CrudRoute = require('./Routes/Crud.route')
-app.use('/api', AuthRoute)
-app.use('/api', CrudRoute)
+const authRoute = require('./routes/auth.route')
+const crudRoute = require('./routes/crud.route')
+app.use('/api', authRoute)
+app.use('/api', crudRoute)
+app.use(
+  '/swagger',
+  swaggerUi.serve,
+  swaggerUi.setup(specs)
+);
 
 app.use(async (req, res, next) => {
   next(createError.NotFound())
@@ -37,8 +65,10 @@ app.use((err, req, res, next) => {
   })
 })
 
+// server
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
+

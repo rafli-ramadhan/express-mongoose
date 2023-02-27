@@ -1,4 +1,4 @@
-const User = require('../Models/User.model')
+const User = require('../models/user.model')
 
 module.exports = {
     find : async (req, res) => {
@@ -13,7 +13,6 @@ module.exports = {
         }
     },
     findById : async (req, res) => {
-        // if user exist
         try {
             const user = await User.findById({ _id:req.params.id })
             if (!user) throw createError.NotFound('User not found')
@@ -30,18 +29,42 @@ module.exports = {
         User.findById({_id:req.params.id})
         .then((currentData) => {
             let {newName, newEmail, newPassword, newGender, newRole, newUpdatedScreeningResult} = '';
-            if (!req.body.name) { newName = currentData.name}
-            if (!req.body.email) { newEmail = currentData.email}
-            if (!req.body.password) { newPassword = currentData.password}
-            if (!req.body.gender) { newGender = currentData.gender}
-            if (!req.body.role) { newRole = currentData.role}
-            if (!req.body.updatedScreeningResult) { newUpdatedScreeningResult = currentData.updatedScreeningResult}
-            if (req.body.name) { newName = req.body.name}
-            if (req.body.email) { newEmail = req.body.email}
-            if (req.body.password) { newPassword = req.body.password}
-            if (req.body.gender) { newGender = req.body.gender}
-            if (req.body.role) { newRole = req.body.role}
-            if (req.body.updatedScreeningResult) { newUpdatedScreeningResult = req.body.updatedScreeningResult}
+            if (!req.body.name) { 
+                newName = currentData.name
+            }
+            if (!req.body.email) { 
+                newEmail = currentData.email
+            }
+            if (!req.body.password) { 
+                newPassword = currentData.password
+            }
+            if (!req.body.gender) { 
+                newGender = currentData.gender
+            }
+            if (!req.body.role) { 
+                newRole = currentData.role
+            }
+            if (!req.body.updatedScreeningResult) { 
+                newUpdatedScreeningResult = currentData.updatedScreeningResult
+            }
+            if (req.body.name) { 
+                newName = req.body.name
+            }
+            if (req.body.email) { 
+                newEmail = req.body.email
+            }
+            if (req.body.password) { 
+                newPassword = req.body.password
+            }
+            if (req.body.gender) { 
+                newGender = req.body.gender
+            }
+            if (req.body.role) { 
+                newRole = req.body.role
+            }
+            if (req.body.updatedScreeningResult) { 
+                newUpdatedScreeningResult = req.body.updatedScreeningResult
+            }
             const newData = User({
                 name: newName,
                 email: newEmail,
@@ -52,7 +75,6 @@ module.exports = {
                 _id: req.params.id
             });
             console.log(newData)
-            // update with new data
             User.findByIdAndUpdate( {_id: req.params.id}, newData, { new: true } )
             .then((updatedData) => {
                 console.log('success update data');
