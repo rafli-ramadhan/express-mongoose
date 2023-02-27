@@ -43,8 +43,8 @@ require('./helpers/init_mongodb').sync;
 // route
 const authRoute = require('./routes/auth.route')
 const crudRoute = require('./routes/crud.route')
-app.use('/api', authRoute)
-app.use('/api', crudRoute)
+app.use('/', authRoute)
+app.use('/', crudRoute)
 app.use(
   '/swagger',
   swaggerUi.serve,
