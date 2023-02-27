@@ -10,7 +10,7 @@ const userController = require('../controllers/user.controller')
  *     description: Get users.
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: Success.
  *         content:
  *           application/json:
  *             schema:
@@ -29,8 +29,11 @@ const userController = require('../controllers/user.controller')
  *                         type: string
  *                         description: The user's name.
  *                         example: Leanne Graham
+ *       500:
+ *         description: Internal server error
  */
 router.get('/v1/users', userController.find);
+
 /**
  * @swagger
  * /v1/users/{id}:
@@ -39,7 +42,7 @@ router.get('/v1/users', userController.find);
  *     description: Get user.
  *     responses:
  *       200:
- *         description: A list of users.
+ *         description: Success.
  *         content:
  *           application/json:
  *             schema:
@@ -60,6 +63,7 @@ router.get('/v1/users', userController.find);
  *                         example: Leanne Graham
  */
 router.get('/v1/users/:id', userController.findById);
+
 /**
  * @swagger
  * /v1/users/{id}:
@@ -68,27 +72,12 @@ router.get('/v1/users/:id', userController.findById);
  *     description: Update user.
  *     responses:
  *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
+ *         description: Success. 
+ *       500:
+ *         description: Internal server error
  */
 router.put('/v1/users/:id', userController.findOneAndUpdate);
+
 /**
  * @swagger
  * /v1/users:
@@ -97,27 +86,13 @@ router.put('/v1/users/:id', userController.findOneAndUpdate);
  *     description: Delete user by id.
  *     responses:
  *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
+ *         description: Success. 
+ *       500:
+ *         description: Internal server error
+
  */
 router.delete('/v1/users/:id', userController.findByIdAndRemove);
+
 /**
  * @swagger
  * /v1/users:
@@ -126,25 +101,9 @@ router.delete('/v1/users/:id', userController.findByIdAndRemove);
  *     description: Delete all user.
  *     responses:
  *       200:
- *         description: A list of users.
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: integer
- *                         description: The user ID.
- *                         example: 0
- *                       name:
- *                         type: string
- *                         description: The user's name.
- *                         example: Leanne Graham
+ *         description: Success. 
+ *       500:
+ *         description: Internal server error
  */
 router.delete('/v1/users/', userController.removeAll);
 
