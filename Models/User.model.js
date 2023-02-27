@@ -26,10 +26,6 @@ const UserSchema = new mongoose.Schema({
       required: true,
       default: 'member'
     },
-    updatedScreeningResult : { 
-      type: String,
-      default: null,
-    },
   },
   { 
     timestamps: true 
