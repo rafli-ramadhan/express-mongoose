@@ -1,35 +1,33 @@
 const createError = require('http-errors')
-const User = require('../models/user.model')
-const { registerSchema, loginSchema } = require('../helpers/validation_schema')
-const {
-  signAccessToken,
-  verifyAccessToken,
-} = require('../helpers/jwt_helper')
+const Account = require('../../service/account')
+const { registerSchema, loginSchema } = require('../../helpers/validation_schema')
+const { signAccessToken, verifyAccessToken } = require('../../helpers/jwt')
 
 module.exports = {
-  register: async (req, res, next) => {
+  Register: async (req, res, next) => {
     try {
-      console.log(req.body)
       // validation if (!name || !email || !password || !gender || !role) throw createError.BadRequest()
       const body = await registerSchema.validateAsync(req.body)
+
       // validation if email already exist
-      const doesExist = await User.findOne({ email: body.email })
+      const doesExist = await Account.Find({ email: body.email })
       if (doesExist)
         throw createError.Conflict(`${body.email} is already been registered`)
-      const user = new User(body)
-      const savedUser = await user.save()
-      console.log(savedUser.id)
 
-      const accessToken = await signAccessToken(savedUser.id)
+      const user = new Account(body)
+      const savedAccount = await user.save()
+      console.log(savedAccount.id)
+
+      const accessToken = await signAccessToken(savedAccount.id)
       console.log(accessToken)
 
       return res.status(200).send({
         message: 'success',
         user: {
-          id: savedUser.id,
-          name: savedUser.name,
-          email: savedUser.email,
-          role: savedUser.role,
+          id: savedAccount.id,
+          name: savedAccount.name,
+          email: savedAccount.email,
+          role: savedAccount.role,
         },
         token: accessToken,
       })
@@ -39,15 +37,15 @@ module.exports = {
     }
   },
 
-  login: async (req, res, next) => {
+  Login: async (req, res, next) => {
     try {
-      console.log(req.body)
       // validation
       const body = await loginSchema.validateAsync(req.body)
+
       // if email not exist
-      const user = await User.findOne({ email: body.email })
-      if (!user) throw createError.NotFound('User not registered')
-      console.log(user.id)
+      const user = await Account.findOne({ email: body.email })
+      if (!user) throw createError.NotFound('Account not registered')
+
       // if password is not match
       const isMatch = await user.isValidPassword(body.password)
       if (!isMatch)
@@ -85,7 +83,7 @@ module.exports = {
     console.log(decodedResult.id)
 
     try {
-      const user = await User.findOne({ _id: decodedResult.id })
+      const user = await Account.findOne({ _id: decodedResult.id })
       console.log(user.id)
       if (user.role === 'admin') {
           return res.status(200).send({
@@ -97,16 +95,6 @@ module.exports = {
       });
     } catch (error) {
       return res.status(401).send({message: 'invalid jwt token'});
-    }
-  },
-
-  logout: async (req, res, next) => {
-    try {
-      const { refreshToken } = req.body
-      if (!refreshToken) throw createError.BadRequest()
-      // const userId = await verifyRefreshToken(refreshToken)
-    } catch (error) {
-      next(error)
     }
   },
 }

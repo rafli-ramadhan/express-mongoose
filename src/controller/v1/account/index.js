@@ -1,9 +1,9 @@
-const User = require('../models/user.model')
+const Account = require('../../service/account')
 
 module.exports = {
-    find : async (req, res) => {
+    Get : async (req, res) => {
         try {
-            const users = await User.find()
+            const users = await Account.TakeById(req.params.id)
             return res.status(200).send(users)
         }
         catch (error) {
@@ -12,10 +12,10 @@ module.exports = {
             });
         }
     },
-    findById : async (req, res) => {
+    GetByIDs: async (req, res) => {
         try {
-            const user = await User.findById({ _id:req.params.id })
-            if (!user) throw createError.NotFound('User not found')
+            const user = await Account.FindById(req.params.id)
+            if (!user) throw createError.NotFound('Account not found')
             return res.status(200).send(user);
         }
         catch (err) {
@@ -24,9 +24,8 @@ module.exports = {
             return res.status(500).send({ message: 'error retrieving data with id ' + req.params.id });
         }
     },
-    findOneAndUpdate : (req, res) => {
-        console.log(req.body);
-        User.findById({_id:req.params.id})
+    Update : (req, res) => {
+        Account.TakeById(req.params.id)
         .then((currentData) => {
             let {newName, newEmail, newPassword, newGender, newRole, newUpdatedScreeningResult} = '';
             if (!req.body.name) { 
@@ -44,9 +43,6 @@ module.exports = {
             if (!req.body.role) { 
                 newRole = currentData.role
             }
-            if (!req.body.updatedScreeningResult) { 
-                newUpdatedScreeningResult = currentData.updatedScreeningResult
-            }
             if (req.body.name) { 
                 newName = req.body.name
             }
@@ -59,13 +55,11 @@ module.exports = {
             if (req.body.gender) { 
                 newGender = req.body.gender
             }
-            if (req.body.role) { 
+            if (req.body.role) { 7
                 newRole = req.body.role
             }
-            if (req.body.updatedScreeningResult) { 
-                newUpdatedScreeningResult = req.body.updatedScreeningResult
-            }
-            const newData = User({
+
+            const newData = Account({
                 name: newName,
                 email: newEmail,
                 password: newPassword,
@@ -74,10 +68,9 @@ module.exports = {
                 updatedScreeningResult: newUpdatedScreeningResult,
                 _id: req.params.id
             });
-            console.log(newData)
-            User.findByIdAndUpdate( {_id: req.params.id}, newData, { new: true } )
+
+            Account.Update(req.param.id, newData)
             .then((updatedData) => {
-                console.log('success update data');
                 return res.status(200).send(updatedData);
             }).catch((err) => {
                 if(err.kind === 'Object_id')
@@ -91,9 +84,9 @@ module.exports = {
             return res.status(500).send({ message: 'error retrieving data with id ' + req.params.id });
         });
     },
-    findByIdAndRemove : (req, res) => {
+    Delete : (req, res) => {
         try {
-            User.findByIdAndRemove({_id: req.params.id}).then(() => {
+            Account.Delete(req.param.id).then(() => {
                 return res.status(200).send({ message: 'data deleted successfully!' });
             })
         }
@@ -102,10 +95,5 @@ module.exports = {
                 return res.status(404).send({ message: 'data not found with id ' + req.params.id, });
             return res.status(500).send({ message: 'could not delete data with id ' + req.params.id, });
         };
-    },
-    removeAll : (req, res) => {
-        User.remove({})
-        .then(() => { return res.status(200).send({ message: 'All data deleted successfully!' }); }) 
-        .catch((err) => { return res.status(500).send({ message: 'Could not delete all data' }); })
     }
 };

@@ -7,7 +7,7 @@ mongoose.connect(process.env.MONGO_URI)
   .catch((err) => console.log(err.message))
 
 mongoose.connection.on('connected', () => {
-  console.log('Mongoose connected to db')
+  console.log('mongoose connected to db')
 })
 
 mongoose.connection.on('error', (err) => {
@@ -15,7 +15,7 @@ mongoose.connection.on('error', (err) => {
 })
 
 mongoose.connection.on('disconnected', () => {
-  console.log('Mongoose connection is disconnected.')
+  console.log('mongoose connection is disconnected.')
 })
 
 process.on('SIGINT', async () => {

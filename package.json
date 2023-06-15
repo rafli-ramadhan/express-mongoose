@@ -1,25 +1,17 @@
 {
-  "name": "express-mongoose-joi",
-  "author": "mochamad-rafli-ramadhan",
+  "name": "express-mongoose",
+  "author": "rafli-ramadhan",
   "license": "MIT",
   "version": "1.0.0",
   "engines": {
     "node": ">=14.x",
     "npm": ">=6.x"
   },
-  "description": "Node.js Restful CRUD and Auth API with Node.js, Express, Mongoose, Hapi/Joi Validation and MongoDB Atlas",
-  "private": false,
-  "main": "app.js",
-  "keywords": [
-    "nodejs",
-    "express",
-    "hapi/joi",
-    "mongoose",
-    "mongodb atlas"
-  ],
+  "description": "Express.js + Mongoose",
+  "main": "main.js",
   "scripts": {
-    "dev": "nodemon app.js",
-    "start": "NODE_ENV=production node app.js"
+    "dev": "nodemon src/main.js",
+    "start": "NODE_ENV=production node src/main.js"
   },
   "dependencies": {
     "@hapi/joi": "^17.1.1",

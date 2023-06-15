@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const userController = require('../controllers/user.controller')
+const accountController = require('../controllers/account.controller')
 
 /**
  * @swagger
@@ -32,7 +32,7 @@ const userController = require('../controllers/user.controller')
  *       500:
  *         description: Internal server error
  */
-router.get('/v1/users', userController.find);
+router.get('/v1/users', accountController.GetAll);
 
 /**
  * @swagger
@@ -62,7 +62,7 @@ router.get('/v1/users', userController.find);
  *                         description: The user's name.
  *                         example: Leanne Graham
  */
-router.get('/v1/users/:id', userController.findById);
+router.get('/v1/users/:id', accountController.Get);
 
 /**
  * @swagger
@@ -76,7 +76,7 @@ router.get('/v1/users/:id', userController.findById);
  *       500:
  *         description: Internal server error
  */
-router.put('/v1/users/:id', userController.findOneAndUpdate);
+router.put('/v1/users/:id', accountController.Update);
 
 /**
  * @swagger
@@ -91,7 +91,7 @@ router.put('/v1/users/:id', userController.findOneAndUpdate);
  *         description: Internal server error
 
  */
-router.delete('/v1/users/:id', userController.findByIdAndRemove);
+router.delete('/v1/users/:id', accountController.Delete);
 
 /**
  * @swagger
@@ -105,6 +105,6 @@ router.delete('/v1/users/:id', userController.findByIdAndRemove);
  *       500:
  *         description: Internal server error
  */
-router.delete('/v1/users/', userController.removeAll);
+router.delete('/v1/users/', accountController.DeleteAll);
 
 module.exports = router

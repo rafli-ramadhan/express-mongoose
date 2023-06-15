@@ -42,7 +42,7 @@ router.post('/v1/register', authController.register)
  *       500:
  *         description: Internal server error
  */
-router.post('/v1/login', authController.login)
+router.post('/v1/login', authController.Login)
 
 /**
  * @swagger
@@ -56,6 +56,6 @@ router.post('/v1/login', authController.login)
  *       500:
  *         description: Internal server error
  */
-router.delete('/v1/logout', authController.logout)
+router.delete('/v1/logout', authController.Logout)
 
 module.exports = router
